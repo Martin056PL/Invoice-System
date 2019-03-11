@@ -35,7 +35,9 @@ public class EmployeeServis {
         System.out.println("Podaj stawkę dzienną dla pracownika zatrudnionego na zasadach B2B: ");
         Integer daySalaryForB2BEmpolyeeAsInteger = scanner.nextInt();
         BigDecimal daySalaryForB2BEmpolyeeAsBigDecimal = BigDecimal.valueOf(daySalaryForB2BEmpolyeeAsInteger);
-        return daySalaryForB2BEmpolyeeAsBigDecimal.multiply(daysOfWorkInBigDecimal);
+        BigDecimal finalSalary= daySalaryForB2BEmpolyeeAsBigDecimal.multiply(daysOfWorkInBigDecimal);
+        System.out.println("Wynagrodzenie pracownika zatrudnionego w formie B2b wynosi: " + finalSalary);
+        return finalSalary;
 
     }
 }

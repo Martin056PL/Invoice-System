@@ -9,7 +9,6 @@ public class EmployeeRepository {
 
         defaultArrayList.add(employee1);
         defaultArrayList.add(employee2);
-
         return defaultArrayList;
     }
 

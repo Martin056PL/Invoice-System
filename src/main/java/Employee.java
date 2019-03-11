@@ -7,13 +7,13 @@ private String lastName;
 private Enum jobContract;
 private BigDecimal salary;
 
-    Employee(String firstName, String lastName, Enum jobContract, BigDecimal salary) {
+    public Employee(String firstName, String lastName, Enum jobContract, BigDecimal salary) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.jobContract = jobContract;
         this.salary = salary;
     }
-    Employee() {
+    public Employee() {
     }
 
     public String getFirstName() {
