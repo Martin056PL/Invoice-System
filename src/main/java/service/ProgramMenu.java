@@ -1,18 +1,20 @@
+package service;
+
+import dao.EmployeeRepository;
+
 import java.util.Scanner;
 
 public class ProgramMenu {
     public static void showProgramMenu() {
-        System.out.println("Witamy w programie do rozliczania pracowników Invoice Servis!");
-        System.out.println("Możliwe działania: ");
-        System.out.println("1 - Wyświetl listę pracowników");
-        System.out.println("2 - Dodaj nowego pracownika");
-        System.out.println("Z - zakończ program");
+        System.out.println("Witamy w programie do rozliczania pracowników Invoice Servis!\nMożliwe działania: \n" +
+                "1 - Wyświetl listę pracowników\n2 - Dodaj nowego pracownika\nz - zakończ program");
         ProgramMenu programMenu = new ProgramMenu();
         programMenu.choose();
     }
 
     public void choose() {
         Scanner scanner = new Scanner(System.in);
+        System.out.println("Wybierz opcje ktorą chcesz wykonać: ");
         String choose = scanner.nextLine();
 
         switch (choose) {
@@ -22,10 +24,13 @@ public class ProgramMenu {
                 break;
             case "2":
                 EmployeeServis employeeServis = new EmployeeServis();
-                System.out.println(employeeServis.AddNewEmployee());
+                System.out.println(employeeServis.createNewEmployee());
                 break;
-            case "Z":
+            case "z":
+                System.out.println("Dziękujemy za skorzystanie z progeramu!");
                 break;
+            default:
+                System.out.println("coś poszło nie tak!");
         }
     }
 }

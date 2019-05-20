@@ -1,3 +1,5 @@
+package model;
+
 import java.math.BigDecimal;
 
 public class Employee {
@@ -51,6 +53,6 @@ private BigDecimal salary;
     @Override
     public String toString() {
         return "Imię pracownika: " + firstName + "; nazwisko pracownika: " +
-        lastName + "; rodzaj umowy: " + jobContract + "; pensja: " + salary + "zł";
+        lastName + "; rodzaj umowy: " + jobContract + "; pensja: " + salary + "zł\n";
 }
 }

@@ -1,9 +1,12 @@
-import javafx.scene.transform.Scale;
+package service;
+
+import model.Employee;
+import model.JobContract;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.InputMismatchException;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 public class EmployeeServis {
@@ -11,9 +14,9 @@ public class EmployeeServis {
     private static final int INVALID_DAYS_OF_WORK = -1;
     private static final String DAYS = "Days";
     private static final String SALARY = "SALARY";
-    private static final MathContext contex = new MathContext(5);
 
-    public Employee AddNewEmployee() {
+
+    public Employee createNewEmployee() {
         System.out.println("Dodawanie nowego pracownika \nPodaj imię pracownika: ");
         Scanner scanner = new Scanner(System.in);
 
@@ -31,11 +34,19 @@ public class EmployeeServis {
             employee.setJobContract(JobContract.B2B);
             employee.setSalary(salaryForB2BContract());
         } else if (choseContractForm == 2) {
-            System.out.println("Podaj pensję netto pracownika (zł): ");
-            BigDecimal salary = returnInputDouble(scanner);
-            return new Employee(firstName, lastName, JobContract.UoP, salary);
+            employee.setFirstName(firstName);
+            employee.setLastName(lastName);
+            employee.setJobContract(JobContract.UoP);
+            employee.setSalary(getSalaryForUoP(scanner));
+        }else{
+
         }
         return employee;
+    }
+
+    public LinkedList<Employee> employeesList(LinkedList<Employee> defaultListOfEmployees){
+    defaultListOfEmployees.add(createNewEmployee());
+    return defaultListOfEmployees;
     }
 
     private BigDecimal salaryForB2BContract() {
@@ -72,10 +83,17 @@ public class EmployeeServis {
     private static String returnWords(Scanner scanner) throws InputMismatchException {
         return scanner.nextLine();
     }
+
     private static BigDecimal returnInputInteger(Scanner scanner) throws InputMismatchException{
         return BigDecimal.valueOf(scanner.nextInt());
     }
+
     private static BigDecimal returnInputDouble(Scanner scanner) throws InputMismatchException{
         return BigDecimal.valueOf(scanner.nextDouble());
+    }
+
+    private BigDecimal getSalaryForUoP(Scanner scanner) {
+        System.out.println("Podaj pensję netto pracownika (zł): ");
+        return returnInputDouble(scanner);
     }
 }
