@@ -24,12 +24,28 @@ private BigDecimal salary;
         return lastName;
     }
 
-    public Enum getJobContract() {
+    public Enum getJobContract(JobContract b2b) {
         return jobContract;
     }
 
     public BigDecimal getSalary() {
         return salary;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setJobContract(Enum jobContract) {
+        this.jobContract = jobContract;
+    }
+
+    public void setSalary(BigDecimal salary) {
+        this.salary = salary;
     }
 
     @Override

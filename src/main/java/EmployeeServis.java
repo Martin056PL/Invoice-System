@@ -1,43 +1,81 @@
+import javafx.scene.transform.Scale;
+
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class EmployeeServis {
 
+    private static final int INVALID_DAYS_OF_WORK = -1;
+    private static final String DAYS = "Days";
+    private static final String SALARY = "SALARY";
+    private static final MathContext contex = new MathContext(5);
+
     public Employee AddNewEmployee() {
-        System.out.println("Dodawanie nowego pracownika");
-        System.out.println("Podaj imię pracownika: ");
+        System.out.println("Dodawanie nowego pracownika \nPodaj imię pracownika: ");
         Scanner scanner = new Scanner(System.in);
-        String firstName = scanner.nextLine();
+
+        String firstName = returnWords(scanner);
         System.out.println("Podaj nazwisko pracownika: ");
-        String lastName = scanner.nextLine();
+        String lastName = returnWords(scanner);
         System.out.println("Podaj formę zatrudnienia (1 - B2B, 2 - UoP): ");
         int choseContractForm = scanner.nextInt();
 
         Employee employee = new Employee();
 
         if (choseContractForm == 1) {
-            employee = new Employee(firstName, lastName, JobContract.B2B, salaryForB2BContract());
+            employee.setFirstName(firstName);
+            employee.setLastName(lastName);
+            employee.setJobContract(JobContract.B2B);
+            employee.setSalary(salaryForB2BContract());
         } else if (choseContractForm == 2) {
             System.out.println("Podaj pensję netto pracownika (zł): ");
-            Integer salaryInInteger = scanner.nextInt();
-            BigDecimal salary = BigDecimal.valueOf(salaryInInteger);
-            employee = new Employee(firstName, lastName, JobContract.UoP, salary);
+            BigDecimal salary = returnInputDouble(scanner);
+            return new Employee(firstName, lastName, JobContract.UoP, salary);
         }
         return employee;
     }
 
     private BigDecimal salaryForB2BContract() {
-        System.out.println("Wynagrodzenie pracownika za formę B2B");
-        System.out.println("Podaj ile dni pracował pracownik: ");
+        System.out.println("Wynagrodzenie pracownika za formę B2B \nPodaj ile dni pracował pracownik: ");
         Scanner scanner = new Scanner(System.in);
-        Integer daysOfWorkInInteger = scanner.nextInt();
-        BigDecimal daysOfWorkInBigDecimal = BigDecimal.valueOf(daysOfWorkInInteger);
+
+        BigDecimal daysOfWorkInBigDecimal = getProperNumber(scanner, DAYS);
         System.out.println("Podaj stawkę dzienną dla pracownika zatrudnionego na zasadach B2B: ");
-        Integer daySalaryForB2BEmpolyeeAsInteger = scanner.nextInt();
-        BigDecimal daySalaryForB2BEmpolyeeAsBigDecimal = BigDecimal.valueOf(daySalaryForB2BEmpolyeeAsInteger);
-        BigDecimal finalSalary= daySalaryForB2BEmpolyeeAsBigDecimal.multiply(daysOfWorkInBigDecimal);
-        System.out.println("Wynagrodzenie pracownika zatrudnionego w formie B2b wynosi: " + finalSalary);
+        BigDecimal daySalaryForB2BEmpolyeeAsBigDecimal = getProperNumber(scanner, SALARY);
+        BigDecimal finalSalary = daySalaryForB2BEmpolyeeAsBigDecimal.multiply(daysOfWorkInBigDecimal);
+        System.out.println("Wynagrodzenie pracownika zatrudnionego w formie B2B wynosi: " + finalSalary);
         return finalSalary;
 
+    }
+
+    private BigDecimal getProperNumber(Scanner scanner, String mark) {
+        BigDecimal value = BigDecimal.valueOf(INVALID_DAYS_OF_WORK);
+        boolean ds = true;
+        while (ds)
+            try {
+                if(mark.equals(DAYS)) {
+                    value = returnInputInteger(scanner);
+                }else if(mark.equals(SALARY)){
+                    value = returnInputDouble(scanner);
+                }
+                ds = false;
+            } catch (InputMismatchException e) {
+                System.out.println("Niepoprawy format danych! " + e);
+                scanner.next();
+            }
+        return value.setScale(1,RoundingMode.CEILING);
+    }
+
+    private static String returnWords(Scanner scanner) throws InputMismatchException {
+        return scanner.nextLine();
+    }
+    private static BigDecimal returnInputInteger(Scanner scanner) throws InputMismatchException{
+        return BigDecimal.valueOf(scanner.nextInt());
+    }
+    private static BigDecimal returnInputDouble(Scanner scanner) throws InputMismatchException{
+        return BigDecimal.valueOf(scanner.nextDouble());
     }
 }
